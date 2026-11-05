@@ -1,0 +1,776 @@
+from manim import *
+import numpy as np
+
+class one(ThreeDScene):
+    def construct(self):
+
+        title = Text("Aristotle Rides The Lorenz Coaster").scale(1)
+
+        self.play(FadeIn(title, run_time = 4))
+        
+        self.wait(2)
+        self.remove(title)
+        
+        aristotle_matrices = [
+          [ [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,2,2,2,2,3,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,2,2,2,2,2,2,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,2,1,4,2,2,4,1,2,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,2,3,3,3,3,2,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,2,5,5,2,3,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,6,7,2,3,3,2,7,6,0,0,0,0,0,0],
+            [0,0,0,0,0,6,7,7,7,7,7,7,7,7,6,0,0,0,0,0],
+            [0,0,0,0,0,6,7,7,7,7,7,7,7,7,6,0,0,0,0,0],
+            [0,0,0,0,0,6,3,6,6,7,7,7,7,3,6,0,0,0,0,0],
+            [0,0,0,0,0,6,3,6,6,6,6,6,6,3,6,0,0,0,0,0],
+            [0,0,0,0,0,2,2,6,6,6,6,6,6,2,2,0,0,0,0,0],
+            [0,0,0,0,0,0,2,7,7,6,6,7,7,2,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,7,7,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,7,6,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,6,6,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,2,0,0,2,2,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,6,6,0,0,6,6,0,0,0,0,0,0,0]  ],
+
+          [ [0,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,4,1,2,3,2,2,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,2,2,2,2,3,2,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,5,3,3,3,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,2,2,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,6,6,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,6,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,6,6,3,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,2,2,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,6,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,6,0,2,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,6,6,6,0,0,0,0,0,0,0,0,0]
+                                                      ],
+
+          [ [0,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,4,1,2,3,2,2,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,2,2,2,2,3,2,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,5,3,3,3,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,3,3,2,2,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,6,6,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,6,7,7,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,3,6,6,3,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,2,2,7,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,7,7,7,6,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,2,0,2,2,6,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,6,6,0,0,0,6,0,0,0,0,0,0,0,0]
+
+                                                       ],
+            [
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,3,3,3,3,3,2,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,2,2,3,2,1,4,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,3,2,3,2,2,2,2,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,3,3,3,3,2,5,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,6,6,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,6,7,6,6,6,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,6,7,7,6,6,6,6,2,2,0,0,0,0,0,0],
+             [0,0,0,0,0,3,3,3,0,6,6,6,2,2,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,6,6,2,3,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,6,6,2,3,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                 ]                                           
+
+
+        ]
+
+        mobject_frames = []
+        
+        pixel_size =  0.25
+
+                
+        for matrix in aristotle_matrices:    
+        
+        
+            aristotle_group = VGroup()       
+            for R_index, Content in enumerate(matrix):
+                        for C_index, Element in enumerate(Content):
+
+                            if(Element == 0):
+
+                                continue 
+
+                            pixel = Square(side_length=pixel_size, stroke_width = 0.2, stroke_color = BLACK)
+
+
+                            if (Element == 1):
+
+                                pixel.set_fill("#ffffff", opacity= 1)
+
+                            elif (Element == 2):
+                    
+                                pixel.set_fill("#cda27a", opacity= 1)
+                    
+                            elif (Element == 3):
+                                
+                                pixel.set_fill("#221402", opacity= 1)
+
+                            elif (Element == 4):
+                                            
+                                pixel.set_fill("#131B17", opacity= 1)
+
+                            elif (Element == 5):
+                                                        
+                                pixel.set_fill("#441111", opacity= 1)
+                
+                            elif (Element == 6):
+                                                    
+                                pixel.set_fill("#3D2E20", opacity= 1)
+                
+                            elif (Element == 7):
+                                                                                
+                                pixel.set_fill("#A3AAE1", opacity= 1)
+                    
+                            pixel.move_to(RIGHT*C_index*pixel_size + DOWN*R_index*pixel_size)
+                            aristotle_group.add(pixel)
+
+        
+
+            mobject_frames.append(aristotle_group)
+        
+        
+        
+        mobject_frames[0].move_to(ORIGIN)
+        self.play(FadeIn(mobject_frames[0]))
+        self.wait(3)
+        self.remove(mobject_frames[0])
+        mobject_frames[1].move_to(ORIGIN)
+        self.add(mobject_frames[1])
+        self.play(mobject_frames[1].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position1 = mobject_frames[1].get_center()
+        self.remove(mobject_frames[1])
+        mobject_frames[2].move_to(position1)
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position2 = mobject_frames[2].get_center()
+        self.remove(mobject_frames[2])
+        mobject_frames[1].move_to(position2)
+        self.add(mobject_frames[1])
+        self.play(mobject_frames[1].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position3 = mobject_frames[1].get_center()
+        self.remove(mobject_frames[1])
+        mobject_frames[2].move_to(position3)
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.shift(LEFT * 0.25), run_time = 0.25)        
+        position4 = mobject_frames[2].get_center()
+        self.remove(mobject_frames[2])
+        mobject_frames[1].move_to(position4)
+        self.add(mobject_frames[1])
+        self.play(mobject_frames[1].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position5 = mobject_frames[1].get_center()
+        self.remove(mobject_frames[1])
+        mobject_frames[2].move_to(position5)
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position6 = mobject_frames[2].get_center()
+        self.remove(mobject_frames[2])
+        mobject_frames[1].move_to(position6)
+        self.add(mobject_frames[1])
+        self.play(mobject_frames[1].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position7 = mobject_frames[1].get_center()
+        self.remove(mobject_frames[1])
+        mobject_frames[2].move_to(position7)
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.shift(LEFT * 0.25), run_time = 0.25)        
+        position8 = mobject_frames[2].get_center()
+        self.remove(mobject_frames[2])
+        mobject_frames[1].move_to(position8)
+        self.add(mobject_frames[1])
+        self.play(mobject_frames[1].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position9 = mobject_frames[1].get_center()
+        self.remove(mobject_frames[1])
+        mobject_frames[2].move_to(position9)
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.shift(LEFT * 0.25), run_time = 0.25)
+        position10 = mobject_frames[2].get_center()
+        self.remove(mobject_frames[2])
+        mobject_frames[0].move_to(position10)
+        self.add(mobject_frames[0])
+        self.wait(2)
+                          
+    
+        rene_matrices = [
+            [ [0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+              [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+              [0,0,0,0,0,1,1,1,2,1,2,1,2,1,1,0,0,0,0,0],
+              [0,0,0,0,1,1,1,2,2,2,2,2,2,1,1,1,0,0,0,0],
+              [0,0,0,0,1,1,2,3,4,2,2,4,3,2,1,1,0,0,0,0],
+              [0,0,0,0,1,1,2,3,4,2,2,4,3,2,1,1,0,0,0,0],
+              [0,0,0,0,1,1,2,2,1,1,1,1,2,2,1,1,0,0,0,0],
+              [0,0,0,0,1,1,1,2,2,5,5,2,2,1,1,1,0,0,0,0],
+              [0,0,0,0,0,1,1,2,1,1,1,1,2,1,1,0,0,0,0,0],
+              [0,0,0,0,0,0,1,3,2,1,1,2,3,1,0,0,0,0,0,0],
+              [0,0,0,0,0,0,3,3,3,2,2,3,3,3,0,0,0,0,0,0],
+              [0,0,0,0,0,6,6,3,3,3,3,3,3,6,6,0,0,0,0,0],
+              [0,0,0,0,0,6,6,8,8,3,3,8,8,6,6,0,0,0,0,0],
+              [0,0,0,0,0,6,6,8,8,3,3,8,8,6,6,0,0,0,0,0],
+              [0,0,0,0,0,6,6,8,8,3,3,8,8,6,6,0,0,0,0,0],
+              [0,0,0,0,0,2,2,8,8,3,3,8,8,2,2,0,0,0,0,0],
+              [0,0,0,0,0,0,0,7,7,7,7,7,7,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,7,7,7,7,7,7,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,7,7,0,0,7,7,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,8,8,0,0,8,8,0,0,0,0,0,0,0],
+
+                                                           ],
+            [[0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,1,1,2,1,2,1,1,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,2,1,2,2,3,4,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,2,1,2,2,2,1,2,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,1,1,2,2,1,5,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,1,1,1,2,2,2,2,1,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,8,8,8,3,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,8,8,8,6,6,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,8,8,8,6,6,6,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,8,8,8,8,6,6,6,6,2,2,0,0,0,0,0,0],
+             [0,0,0,0,1,1,1,1,6,6,6,6,2,2,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,0,0,0,1,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,7,7,7,1,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,7,7,7,7,7,7,1,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+                                                        ]
+                                                            ]
+
+
+
+        mobject_frames2= []
+        
+
+        for matrix in rene_matrices:
+            rene_group = VGroup()
+
+            for R_index, Content in enumerate(matrix):
+                for C_index, element in enumerate(Content):
+
+                    if (element == 0):
+
+                        continue
+
+                    pixel2 = Square(side_length=pixel_size, stroke_width = 0.2, stroke_color = BLACK)
+
+                    if (element == 1 ):
+
+                        pixel2.set_fill( "#4D2100", opacity= 1)
+                    elif (element == 2 ):
+                    
+                        pixel2.set_fill( "#FFD6C0", opacity= 1)
+                    elif (element == 3 ):
+                    
+                        pixel2.set_fill( "#F8F4F1", opacity= 1)
+                    elif (element == 4 ):
+                    
+                        pixel2.set_fill( "#A7D6D7", opacity= 1)
+                    elif (element == 5 ):
+                    
+                        pixel2.set_fill( "#411717", opacity= 1)
+                    elif (element == 6 ):
+                    
+                        pixel2.set_fill( "#106D6A", opacity= 1)
+                    elif (element == 7 ):
+                    
+                        pixel2.set_fill( "#292941", opacity= 1)
+                    elif (element == 8 ):
+                    
+                        pixel2.set_fill( "#4C392A", opacity= 1)
+
+                    pixel2.move_to(RIGHT * C_index * pixel_size + DOWN * R_index * pixel_size )
+                    rene_group.add(pixel2)
+
+            mobject_frames2.append(rene_group)
+
+
+       
+
+
+        mario_kart = [ [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0],
+                       [0,0,0,2,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0],                      
+                       [0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0],
+                       [0,5,3,2,2,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0],
+                       [0,5,3,2,2,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0],
+                       [0,0,0,2,2,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0],
+                       [0,0,0,4,4,1,1,1,1,1,1,1,1,1,4,4,1,1,1,0],
+                       [0,0,4,5,5,4,3,3,3,3,3,3,0,4,5,5,4,3,3,0],
+                       [0,0,4,5,5,4,0,0,0,0,0,0,0,4,5,5,4,0,0,0],
+                       [0,0,0,4,4,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0]
+                                  ]
+
+        kart_group = VGroup()
+        for R_index, Content in enumerate(mario_kart):
+            for C_index, element in enumerate(Content):
+
+                
+
+                if (element == 0):
+        
+                 continue
+        
+                pixel3 = Square(side_length=pixel_size, stroke_width = 0.2, stroke_color = BLACK)
+        
+                if (element == 1 ):
+        
+                    pixel3.set_fill( "#C42100", opacity= 1)
+                elif (element == 2 ):
+                            
+                    pixel3.set_fill( "#0B0B0B", opacity= 1)
+                elif (element == 3 ):
+                            
+                    pixel3.set_fill( "#A5A3A2", opacity= 1)
+                elif (element == 4 ):
+                            
+                    pixel3.set_fill( "#787A7A", opacity= 1)
+                elif (element == 5 ):
+                                 
+                    pixel3.set_fill( "#FFEE01", opacity= 1)
+
+                pixel3.move_to(RIGHT * C_index * pixel_size + DOWN * R_index * pixel_size)
+                kart_group.add(pixel3)
+
+       
+        Wait(2)
+        kart = kart_group
+        Aristotle_kart = VGroup(kart.copy(),mobject_frames[3].copy())
+        rene_sitting = mobject_frames2[1]
+        Rene_kart = VGroup(kart, rene_sitting)
+        Rene_kart.flip(UP)
+        Rene_kart.to_corner(UR/2)
+        self.play(FadeIn(Rene_kart))
+        
+        self.play(Rene_kart.animate.move_to(ORIGIN+ RIGHT * 1.5), 
+                  run_time = 5,
+                  rate_func = smooth)
+        
+        position11= Rene_kart.get_center()
+        kart.move_to(position11)
+        mobject_frames2[0].move_to(position11 + RIGHT * 1.5)
+        self.remove(Rene_kart)
+        self.add(kart)
+        self.add(mobject_frames2[0])
+        self.wait(3)
+
+        quotations = ["How did you appear just now??","I think therefore I am","want a ride on the kart?","Sure","Hop on"]
+
+        Talk_list = []
+        for quote in quotations:
+
+
+            think_box = Rectangle( height=1, width=4, color=BLACK, fill_opacity=0.1, stroke_color = BLACK)
+            text = Text(quote, font_size= 23, color=WHITE ).move_to(think_box.get_center())
+            Talking_group = VGroup(think_box, text)
+            Talk_list.append(Talking_group)
+
+
+        Talk_list[0].move_to((mobject_frames[0].get_center()) + UP * 3 )
+        self.add(Talk_list[0])
+        self.wait(3)
+        self.remove(Talk_list[0])
+        Talk_list[1].move_to((mobject_frames2[0].get_center()) + UP * 3)
+        self.add(Talk_list[1])
+        self.wait(3)
+        self.remove(Talk_list[1])
+        Talk_list[2].move_to((mobject_frames2[0].get_center()) + UP * 3)
+        self.add(Talk_list[2])
+        self.wait(3)
+        self.remove(Talk_list[2])
+        Talk_list[3].move_to((mobject_frames[0].get_center()) + UP * 3)
+        self.add(Talk_list[3])
+        self.wait(3)
+        self.remove(Talk_list[3])
+        Talk_list[4].move_to((mobject_frames2[0].get_center()) + UP * 3)
+        self.add(Talk_list[4])
+        self.wait(3)
+        self.remove(Talk_list[4])
+
+       
+        
+       
+        mobject_frames[2].move_to(mobject_frames[0].get_center())
+        mobject_frames[2].flip(UP)
+        self.remove(mobject_frames[0])
+        self.add(mobject_frames[2])
+        self.play(mobject_frames[2].animate.move_to((kart.get_center()) + LEFT * 2), 
+                  run_time = 2, 
+                  rate_function = smooth)
+        self.remove(mobject_frames[2])
+        Aristotle_kart.flip(UP)
+        Aristotle_kart.move_to(position11)
+        Aristotle_kart.z_index = 1
+        mobject_frames2[0].z_index = 2 
+        self.remove(kart)
+        self.add(Aristotle_kart)
+        self.wait(3)
+        self.play(Aristotle_kart.animate.move_to(LEFT * 3 + UP * 5), 
+                  run_time = 4,
+                  rate_function = smooth)
+
+        self.remove(Aristotle_kart)
+
+        yellow_stars = [
+            
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [2,2,2,2,1,1,1,1,1],
+             [0,2,2,2,1,3,3,1,0],
+             [0,0,2,1,1,1,1,0,0],
+             [0,0,2,1,0,1,1,0,0],
+             [0,0,2,0,0,0,1,0,0]
+             
+                  ],
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [2,2,2,2,1,1,1,1,1],
+             [0,2,2,2,1,3,3,1,0],
+             [0,0,2,1,1,1,1,0,0],
+             [0,0,2,1,0,1,1,0,0],
+             [0,0,2,0,0,0,1,0,0]
+             
+                  ],
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [2,2,2,2,1,1,1,1,1],
+             [0,2,2,2,1,3,3,1,0],
+             [0,0,2,1,1,1,1,0,0],
+             [0,0,2,1,0,1,1,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [2,2,2,2,1,1,1,1,1],
+             [0,2,2,2,1,3,3,1,0],
+             [0,0,2,1,1,1,1,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+             
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [0,2,2,2,1,1,1,1,0],
+             [0,2,2,2,0,3,3,1,0],
+             [0,0,2,0,0,0,1,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+            
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [0,2,2,2,0,1,1,1,0],
+             [0,0,2,0,0,0,3,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,2,1,1,0,0,0],
+             [0,0,0,2,0,1,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+            
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,2,2,1,0,0,0],
+             [0,0,0,0,1,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]],
+
+            [[0,0,0,0,2,0,0,0,0],
+             [0,0,0,0,2,0,0,0,0],
+             [0,0,0,0,1,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0],
+             [0,0,0,0,0,0,0,0,0]]
+        ]
+        yellow_list = []
+        for matrix in yellow_stars:
+            yStar_group = VGroup()
+            
+            for R_index, Content in enumerate(matrix):
+                for C_index, element in enumerate(Content):
+        
+                        
+        
+                        if (element == 0):
+                    
+                            continue
+                    
+                        pixel4 = Square(side_length=pixel_size, stroke_width = 0.2, stroke_color = BLACK)
+                    
+                        if (element == 1 ):
+                    
+                            pixel4.set_fill( "#FFF398", opacity= 1)
+                        elif (element == 2 ):
+                                        
+                            pixel4.set_fill( "#D4CD7B", opacity= 1)
+                        elif (element == 3 ):
+                                        
+                            pixel4.set_fill( "#FFFFFF", opacity= 1)
+                    
+            
+                        pixel4.move_to(RIGHT * C_index * pixel_size + DOWN * R_index * pixel_size)
+                        yStar_group.add(pixel4)
+                
+            yellow_list.append(yStar_group)
+
+        pink_stars = [
+                    
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [2,2,2,2,1,1,1,1,1],
+                     [0,2,2,2,1,3,3,1,0],
+                     [0,0,2,1,1,1,1,0,0],
+                     [0,0,2,1,0,1,1,0,0],
+                     [0,0,2,0,0,0,1,0,0]
+                     
+                          ],
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [2,2,2,2,1,1,1,1,1],
+                     [0,2,2,2,1,3,3,1,0],
+                     [0,0,2,1,1,1,1,0,0],
+                     [0,0,2,1,0,1,1,0,0],
+                     [0,0,2,0,0,0,1,0,0]
+                     
+                          ],
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [2,2,2,2,1,1,1,1,1],
+                     [0,2,2,2,1,3,3,1,0],
+                     [0,0,2,1,1,1,1,0,0],
+                     [0,0,2,1,0,1,1,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+        
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [2,2,2,2,1,1,1,1,1],
+                     [0,2,2,2,1,3,3,1,0],
+                     [0,0,2,1,1,1,1,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+                     
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [0,2,2,2,1,1,1,1,0],
+                     [0,2,2,2,0,3,3,1,0],
+                     [0,0,2,0,0,0,1,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+                    
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [0,2,2,2,0,1,1,1,0],
+                     [0,0,2,0,0,0,3,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+        
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,2,1,1,0,0,0],
+                     [0,0,0,2,0,1,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+                    
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,2,2,1,0,0,0],
+                     [0,0,0,0,1,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]],
+        
+                    [[0,0,0,0,2,0,0,0,0],
+                     [0,0,0,0,2,0,0,0,0],
+                     [0,0,0,0,1,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0],
+                     [0,0,0,0,0,0,0,0,0]]
+                ]
+
+        pink_list = []
+        for matrix in pink_stars:
+            pStar_group = VGroup()
+            
+            for R_index, Content in enumerate(matrix):
+                for C_index, element in enumerate(Content):
+        
+                        
+        
+                        if (element == 0):
+                    
+                            continue
+                    
+                        pixel5 = Square(side_length=pixel_size, stroke_width = 0.2, stroke_color = BLACK)
+                    
+                        if (element == 1 ):
+                    
+                            pixel5.set_fill( "#FDB2E5", opacity= 1)
+                        elif (element == 2 ):
+                                        
+                            pixel5.set_fill( "#B07A9A", opacity= 1)
+                        elif (element == 3 ):
+                                        
+                            pixel5.set_fill( "#FFFAFF", opacity= 1)
+                    
+            
+                        pixel5.move_to(RIGHT * C_index * pixel_size + DOWN * R_index * pixel_size)
+                        pStar_group.add(pixel5)
+                
+            pink_list.append(pStar_group)
+
+
+        self.remove(mobject_frames2[0])
+        Aristotle_kart.move_to(ORIGIN + RIGHT * 6)
+        
+        yellow_list[0].move_to(ORIGIN + LEFT * 3 + UP * 2)
+        
+        pink_list[0].move_to(ORIGIN + RIGHT * 3 + DOWN * 2)
+
+        Ystar2 = yellow_list[0].copy()
+        Ystar2.move_to(ORIGIN + LEFT * 5 + DOWN * 2)
+
+        Pinkstar2 = pink_list[0].copy()
+        Pinkstar2.move_to(ORIGIN + LEFT * 8 + UP * 3)
+
+        self.play(
+                    yellow_list[0].animate(run_time=4).shift(RIGHT * 4),
+                    Aristotle_kart.animate(run_time=5).shift(LEFT * 5),
+                    pink_list[0].animate(run_time=4).shift(RIGHT * 4),
+                    Ystar2.animate(run_time=4).shift(RIGHT * 4),
+                    Pinkstar2.animate(run_time=4).shift(RIGHT * 4)
+                                                                          )
+        
+        self.play(Aristotle_kart.animate.to_corner(UL))
+        
+        blackhole = ImageMobject("blackhole.jpg")
+        blackhole.scale_to_fit_width(config.frame_width)
+        blackhole.scale_to_fit_height(config.frame_height)
+        Aristotle_kart.move_to(ORIGIN + RIGHT * 8)
+        self.add(blackhole)
+        self.add(Aristotle_kart)
+        self.play(Aristotle_kart.animate.move_to(ORIGIN).scale(0.5), run_time = 3, rate_func = rush_into)
+        self.remove(blackhole)
+        self.remove(Aristotle_kart)
+        chaos_entrance = ImageMobject("CC.jpg")
+        chaos_entrance.scale_to_fit_width(config.frame_width)
+        chaos_entrance.scale_to_fit_height(config.frame_height)
+        Aristotle_kart.to_corner(DR)
+        Aristotle_kart.scale(1.5)
+        self.add(chaos_entrance)
+        self.play(Aristotle_kart.animate.to_corner(DL), run_time = 4)
+        self.remove(Aristotle_kart)
+        self.remove(chaos_entrance)
+        self.remove(yellow_list[0],
+                    pink_list[0],
+                    Ystar2,
+                    Pinkstar2)
+        self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES, zoom=0.2)
+        axes = ThreeDAxes(
+            x_range = [-30,30,10],
+            y_range = [-30,30,10],
+            z_range = [0, 50, 10],
+            axis_config={"stroke_width": 0, "include_ticks": False}
+                                                                    ).shift(DOWN * 10 + RIGHT * 8)
+        
+        sigma = 10
+        rho = 28
+        beta = 8 / 3
+        
+        state = np.array([0.1, 0.1, 0.1])
+        dt = 0.01 
+        
+        startPosition = axes.c2p(*state)
+        Aristotle_kart2 = Aristotle_kart.copy()
+        
+        Aristotle_kart2.rotate(75 * DEGREES, axis=RIGHT)
+        Aristotle_kart2.rotate(-45 * DEGREES, axis=OUT)   
+       
+        path = TracedPath(Aristotle_kart2.get_center, stroke_width=2.5)
+        path.add_updater(lambda p: p.set_color(
+            interpolate_color(BLUE, PURPLE, np.sin(self.time) * 0.5 + 0.5)))
+        Aristotle_kart2.rotate(PI / 2)
+        Aristotle_kart2.scale(0.5) 
+        self.add(Aristotle_kart2, path)
+        
+        
+
+        def update_position(mobject, dt_frame = 0):
+            nonlocal state
+            x, y, z = state
+            
+            dx = sigma * (y - x)
+            dy = x * (rho - z) - y
+            dz = x * y - beta * z
+            
+            state += np.array([dx, dy, dz]) * dt
+
+
+            mobject.move_to(axes.c2p(*state))
+
+        Aristotle_kart2.add_updater(update_position)
+        self.wait(25)
+        Aristotle_kart2.remove_updater(update_position)
+            
